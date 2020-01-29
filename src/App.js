@@ -21,19 +21,19 @@ const Start = (props) => {
 
 const TimerLabel = (props) => {
   return(
-    <div>Session</div>
+    <div>{props.label}</div>
   );
 }
 
 const TimeLeft = (props) => {
   return(
-    <div>25:00</div>
+    <div>{props.minutes}:{props.seconds}</div>
   );
 }
 
 const Duration = (props) => {
   return(
-    <div>5</div>
+    <div>{props.length}</div>
   );
 }
 
@@ -64,8 +64,8 @@ const Controls = (props) => {
 const Timer = (props) => {
   return(
     <div>
-      <TimerLabel/>
-      <TimeLeft/>
+      <TimerLabel label={props.label}/>
+      <TimeLeft minutes={props.minutes} seconds={props.seconds}/>
     </div>
   );
 }
@@ -76,7 +76,7 @@ const Session = (props) => {
       <div>Session</div>
       <div className="flexRow">
         <Decrement/>
-        <Duration/>
+        <Duration length={props.length}/>
         <Increment/>
       </div>
     </div>
@@ -89,7 +89,7 @@ const Break = (props) => {
       <div>Break</div>
       <div className="flexRow">
         <Decrement/>
-        <Duration/>
+        <Duration length={props.length}/>
         <Increment/>
       </div>
     </div>
@@ -97,17 +97,31 @@ const Break = (props) => {
 }
 
 class App extends React.Component {
+  constructor(props){
+    super(props)
+
+    this.state = {
+      label:'Session',
+      breakLength: 5,
+      sessionLength: 25,
+      minutes:25,
+      seconds:0
+    }
+
+  }
+  
+
   render(){
     return(
       <div className="appWrapper">
         <main>
           <h1>Pomodoro Clock</h1>
           <div className="flexRow">
-            <Break/>
-            <Session/>
+            <Break length={this.state.breakLength}/>
+            <Session length={this.state.sessionLength}/>
           </div>
           <div className="timer flexCol">
-            <Timer/>
+            <Timer label={this.state.label} minutes={this.state.minutes} seconds={this.state.seconds}/>
           </div>
           <Controls/>
         </main>
